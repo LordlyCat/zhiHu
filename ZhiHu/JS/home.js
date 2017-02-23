@@ -22,6 +22,7 @@ var quizs = document.querySelector('.quizs');
 changeSize();*/
 
 
+
 me.onmouseover = function () {
 
     me.style.display = "none";
@@ -81,9 +82,9 @@ submit.addEventListener('click', function () {
 
 
 //评论回复功能
-var commentBox = document.querySelector('commentWindow');
+var commentBox = document.querySelectorAll('.commentWindow');
 var commentText = document.querySelector('.commentText');
-var interaction = document.querySelectorAll('.interaction a');
+var interaction = document.querySelectorAll('.com');
 var replay = document.querySelector('.replay');
 
 
@@ -99,12 +100,15 @@ function date(date) {
     return y + '-' + m + '-' + d + ' ' + h + ':' + mi;
 }
 
-interaction[1].onclick = function () {
-    commentText.style.display = 'block';
-    commentText.style.height = '50px';
-    commentText.style.color = 'black';
-    replay.style.display = 'block';
-    commentText.focus();
+for (var i = 0; i < interaction.length; i++) {
+
+    interaction[i].onclick = function () {
+        commentText.style.display = 'block';
+        commentText.style.height = '50px';
+        commentText.style.color = 'black';
+        replay.style.display = 'block';
+        commentText.focus();
+    }
 }
 
 
@@ -150,8 +154,4 @@ replay.addEventListener('click', function () {
         alert('评论内容不能为空！');
     }
 
-    
-
-
-}, false);
-
+},false);

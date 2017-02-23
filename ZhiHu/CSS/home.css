@@ -388,15 +388,12 @@ p{
 
 #lists{
 	width: 632px;
-	height: 1200px;
 }
 
 .box{
 	width: 100%;
 	margin-top: 20px;
-	border-top: solid 1px gray;
-	position: relative;
-	
+	display: block;
 }
 
 #lists .head{
@@ -405,10 +402,15 @@ p{
 	height: 60px;
 	margin-right: 10px;
 }
+#lists .head img{
+	display: block;
+}
 .content{
 	width: 400px;
-	float: right;
-	margin-right: 150px;	
+	float: left;
+	margin-right: 150px;
+	margin-bottom: 30px;
+	border-top: solid 1px gray;
 }
 #lists a{
 	text-decoration: none;
@@ -420,7 +422,8 @@ p{
 .mainContent .text{
 	font-size: 13px;
 	color: rgb(34,34,34);
-	 word-wrap:break-word; word-break:normal;
+	word-wrap:break-word;
+	word-break:normal;
 }
 .mainContent .illustration{
 	margin-top: 10px;
@@ -430,7 +433,7 @@ p{
 .user a{
 	font-size: 15px;
 	color: pink;
-	/* transform-style: color 1s; */
+	transform-style: color 1s;
 }
 .user a:hover{
 	color: blue;
@@ -448,14 +451,15 @@ p{
 	float: left;
 	margin-top: 5px;
 	margin-left: 60px;
+	text-decoration: none;
 }
-/* .number{
+.number{
 	width: 85%;
 	height: 30px;
 	background-color: rgb(247,247,247);
 	font-size: 12px;
 	color: rgb(136,51,63);
-} */
+}
 .cut{
 	color: gray;
 	width: 85%;
