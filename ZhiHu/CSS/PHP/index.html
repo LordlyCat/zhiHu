@@ -1,0 +1,90 @@
+<?php
+session_start();
+if($_SESSION['username']==""){
+    Header("Location: login.php");
+}
+//注销登陆 
+//session_unset(); 
+//session_destroy(); 
+?>
+<?php include "conn.php"; ?>
+<?php
+$pageNo = 1; /**页码**/
+$pageSize = 10; /**页大小**/
+$pageCount = 0;    /**共多少页**/
+$totalNum = 0; /**总记录数**/
+
+$pageNo = $_REQUEST["page"];
+if(empty($pageNo)){
+    $pageNo = 1;
+}
+if(!is_numeric($pageNo)){
+    $pageNo = 1;
+}
+if($pageNo<1){
+    $pageNo = 1;
+}
+
+$pageNo = intval($pageNo);
+
+$sql = "select count(*) as totalNum from Question";
+$rs = $conn->query($sql);
+$row = $rs->fetch();
+$totalNum = $row["totalNum"];
+
+$pageCount = intval($totalNum/$pageSize);
+if($totalNum%$pageSize>0){
+    $pageCount = $pageCount+1;
+}
+?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>提问分页</title>
+</head>
+
+<body>
+        <td width="15%">提问标题</td>
+        <td width="5%">提问时间</td>
+        <?php
+        if($_SESSION['purview']=="83"){
+            echo "<td width='8%'>操作</td>";
+        }
+        ?>
+    </tr>
+    <?php
+    if($pageNo==1){
+        $sql = "select top ".$pageSize." * from Question order by QuestionID desc";
+    }
+    else{
+        $sql = "select top ".$pageSize." * from Question where QuestionID not in(select top ".($pageNo-1)*$pageSize." QuestionID from Question order by QuestionID desc) order by QuestionID desc";
+    }
+    $rs = $conn->query($sql);
+    while($row=$rs->fetch()){
+    foreach ($conn->query($sql) as $row){
+    <tr>
+        <td><?php echo $row["QuestionTitle"] ?></td>
+        <td><a href="<?php echo $row["HtmlUrl"] ?>" target="_blank"></a></td>
+        <td><?php echo date("Y-m-d",strtotime($row["QuestionUpdateTime"])) ?></td>
+    </tr>
+    }
+    ?>
+</table>
+<p>
+    <?php
+    function iif($arg_1,$arg_2,$arg_3){
+        if($arg_1){
+            return $arg_2;
+        }
+        else{
+            return $arg_3;
+        }
+    }
+    ?>
+    <a href="index.php?page=1">首页</a>
+    <a href="index.php?page=<?php echo iif($pageNo<=1,1,$pageNo-1); ?>">上一页</a>
+    <a href="index.php?page=<?php echo iif($pageNo>=$pageCount,$pageCount,$pageNo+1); ?>">下一页</a>
+    <a href="index.php?page=<?php echo $pageCount ?>">尾页</a>
+</p>
+</body>
+</html>
