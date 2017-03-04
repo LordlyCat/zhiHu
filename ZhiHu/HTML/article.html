@@ -4,6 +4,7 @@
     <title>文章发布</title>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="../CSS/article.css">
+
 </head>
 <body>
     <div class="head">
@@ -16,18 +17,26 @@
         <button>发布</button>
     </div>
     <div class="main">
-            <input type="text" placeholder="标题">
+        <input type="text" placeholder="标题">
+
+        <div class="toolbar">
+            <span class="tool">
+                工具栏 :
+            </span>
+            <span class="one">
+                粗体
+            </span>
+            <span class="two">
+                斜体
+            </span>
+            <span class="three">
+                下划线
+            </span>
+            <div class="article" contenteditable="true"></div>
+        </div>
+            
+
     </div>
-    <div class="toolbar">
-        <div class="one">
-            粗体
-        </div>
-        <div class="two">
-            斜体
-        </div>
-        <div class="three">
-            下划线
-        </div>
-    </div>
+<script type="text/javascript" src="../JS/article.js" defer="defer"></script>
 </body>
 </html>

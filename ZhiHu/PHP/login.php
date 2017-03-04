@@ -15,7 +15,7 @@ if($_REQUEST["sub"]=="登录"){
     if(empty($Pwd)){
         echo "<script>alert('密码不能为空！');</script>";
         return false;
-    }｀
+    }
 
     $sql = "select * from Users where UserName='".$UserName."' and UserPassword='".$Pwd."'";
     $rs = $conn->query($sql);

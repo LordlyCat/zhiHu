@@ -1,5 +1,7 @@
  *{
     margin: 0 auto;
+    padding:0;
+    border: none;
 } 
 .wrapper{
     margin-top: 195px;
@@ -25,9 +27,11 @@ a{
     margin: 20px;
     font-family: '黑体';
     font-size:18px;
+    color: lightblue;
     text-decoration: none;
 }
-a:focus{
+
+a:hover{
     color: #0F88EB;
 }
 
@@ -42,8 +46,7 @@ input{
     font-family: 'Calibri';
     font-size: 15px;
     outline: none;
-    margin: 0;
-    padding: 0;
+    border-bottom: solid gray 1px;
 }
 .submit button{
     width: 304px;

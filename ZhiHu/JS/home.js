@@ -8,8 +8,13 @@ var furcation = document.querySelector('.furcation');
 var cancel = document.querySelector('.cancel');
 var submit = document.querySelector('.submit');
 var quizs = document.querySelector('.quizs');
+var zhiHu = document.querySelector('.zhiHu');
 
 
+//刷新当前页面
+zhiHu.addEventListener('click', function () {
+    location.replace('home.html');
+}, false);
 
 //改变插图大小
 /*function changeSize () {
@@ -41,28 +46,51 @@ meHover.onmouseover = function () {
 };
 
 
+//弹出提问面板。。。。。。。。。。。。
+
+function cover(){
+    //获取页面的高度和宽度
+    var sWidth = document.body.scrollWidth;
+    var sHeight = document.body.scrollHeight;
+    
+    //获取页面的可视区域高度
+    var wHeight = document.documentElement.clientHeight;
+    var cover = document.createElement("div");
+
+        cover.id = "cover";
+        cover.style.height = sHeight + "px";
+        cover.style.width = sWidth +"px";
+
+        document.body.appendChild(cover);
+
+    //点击关闭
+    function out () {
+
+        board.style.display = 'none';
+        document.body.removeChild(cover);
+    }
+
+    furcation.addEventListener('click', out, false);
+    cancel.addEventListener('click', out, false);
+}
 
 //提问按钮
 quiz.addEventListener('click', function () {
 
     board.style.display = 'block';
-  
+    cover();
+    return false;
 }, false);
 
 quizs.addEventListener('click', function () {
 
     board.style.display = 'block';
+    cover();
     return false;
   
 }, false);
 
 
-function out () {
-    board.style.display = 'none'; 
-};
-
-furcation.addEventListener('click', out, false);
-cancel.addEventListener('click', out, false);
 
 submit.addEventListener('click', function () {
     
@@ -80,78 +108,165 @@ submit.addEventListener('click', function () {
 
 }, false);
 
+var ME = document.querySelector('#me');
 
-//评论回复功能
-var commentBox = document.querySelectorAll('.commentWindow');
-var commentText = document.querySelector('.commentText');
-var interaction = document.querySelectorAll('.com');
-var replay = document.querySelector('.replay');
+ME.addEventListener('click', function () {
+    window.open("person.html");
+}, false);
 
 
+//退出登录
+var logout = document.querySelector('#logout');
+
+logout.addEventListener('click', function () {
+    location.replace('login.html');
+}, false);   
+
+//评论回复功能.........................
 
 //格式化日期
 function date(date) {
-    var y = date.getFullYear();
-    var m = date.getMonth() + 1;
-    var d = date.getDate();
-    var h = date.getHours();
-    var mi = date.getMinutes();
-    m = m > 9 ? m : '0' + m;
-    return y + '-' + m + '-' + d + ' ' + h + ':' + mi;
-}
+    var Y = date.getFullYear();
+    var M = date.getMonth() + 1;
+    var D = date.getDate();
+    var H = date.getHours();
+    var Min = date.getMinutes();
 
-for (var i = 0; i < interaction.length; i++) {
+    Min = Min > 9 ? Min : '0' + Min;
+    return Y + '-' + Min + '-' + D + ' ' + H + ':' + Min;
 
-    interaction[i].onclick = function () {
-        commentText.style.display = 'block';
-        commentText.style.height = '50px';
-        commentText.style.color = 'black';
-        replay.style.display = 'block';
-        commentText.focus();
-    }
 }
 
 
-/*if (commentText.value === '') {
-    commentText.onblur = function  () {
-        commentText.style.display = 'none';
-        replay.style.display = 'none';
-    }
-}*/
+
+var lists = document.querySelector('#lists');
+var boxes = lists.children;
 
 
+//评论
+function commentBox (box) {
 
-/*commentText.onblur = function () {
-    commentText.style.display = 'none';
-    replay.style.display = 'none';
-}*/    
+    var input = box.querySelector('.commentText');
+    var btn = box.querySelector('.replay');
 
-replay.addEventListener('click', function () {
-    var lol = document.querySelector('.lol');
-    var words = commentText.value
-    var wordsBox = document.createElement('div');
+    input.style.display = 'block';
+    input.style.height = '50px';
+    input.style.color = 'black';
+    btn.style.display = 'block';
+    input.focus();
+}
+
+function closeComment (box) {
+    var input = box.querySelector('.commentText');
+    var btn = box.querySelector('.replay');
+
+    input.style.display = 'none';
+    input.value = "";
+    btn.style.display = 'none';
+}
 
 
-    if (words.length !== 0) {
-        wordsBox.innerHTML = '<div class="commentBox">' + 
-                                '<img src="../img/04.jpg" alt="">' +
-                                '<div class="wordsBox">' +
-                                    '<span class="user">我 :</span>' +
-                                    '<span class="words">' + words + '</span>'+
-                                '</div>' +
-                                '<div class="time">' +
-                                    '<span>' + date(new Date()) + '</span>' +
-                                '</div>' +                                                        
-                            '</div>';
-        lol.appendChild(wordsBox);
+for (var i = 0; i < boxes.length; i++) {
+    boxes[i].addEventListener('click',function (el) {
 
-        //收起并清空输入框
-        this.style.display = 'none';
-        commentText.style.display = 'none';
-        commentText.value = "";
-    }
-    else {
-        alert('评论内容不能为空！');
-    }
+        var a = el.srcElement;
 
-},false);
+        switch (a.className) {
+
+                //点赞
+            case 'zan':
+                a.innerHTML = '<img src="../img/赞.png" alt=""> 已赞';
+                break;
+
+                //打开评论框
+            case 'com':
+                commentBox(a.parentNode.parentNode.parentNode);
+                a.innerHTML = '<img src="../img/评论.png" alt=""> 收起</a>';
+                a.className = 'comed';
+                break;
+
+                //收起评论框
+            case 'comed':
+                closeComment(a.parentNode.parentNode.parentNode);
+                a.innerHTML = '<img src="../img/评论.png" alt=""> 评论</a>';
+                a.className = 'com';
+                break;
+
+                //收藏
+            case 'shoucang':
+                a.innerHTML = '<img src="../img/收藏.png" alt=""> 已收藏';
+                a.className = 'abolish';
+                break;
+            case 'abolish':
+                a.innerHTML = '<img src="../img/收藏.png" alt=""> 收藏';
+                a.className = 'shoucang';
+        }
+    }, false);
+
+    //取消收藏
+    boxes[i].addEventListener('mouseover', function (el) {
+
+        var a = el.srcElement;
+        if (a.className == 'abolish') {
+            a.innerHTML = '<img src="../img/收藏.png" alt=""> 取消收藏';
+        }
+
+    }, false);
+
+    boxes[i].addEventListener('mouseout', function (el) {
+
+        var a = el.srcElement;
+        if (a.className == 'abolish') {
+            a.innerHTML = '<img src="../img/收藏.png" alt=""> 已收藏';
+        }
+
+    }, false);
+
+
+    //发表按钮
+    boxes[i].addEventListener('click', function (el) {
+
+        btn = el.srcElement;
+        if (btn.className == 'replay') {
+
+            var box = btn.parentNode.parentNode.parentNode;
+            var cases = box.querySelector('.cases');
+            var input = box.querySelector('.commentText'); 
+            var words = input.value
+            var wordsBox = document.createElement('div');
+            var a = box.querySelector('.comed');
+
+            if (words.length !== 0) {
+                //评论区块
+                wordsBox.innerHTML = '<div class="commentBox">' + 
+                                        '<img src="../img/04.jpg" alt="">' +
+                                        '<div class="wordsBox">' +
+                                            '<span class="user">我 :</span>' +
+                                            '<span class="words">' + words + '</span>'+
+                                        '</div>' +
+                                        '<div class="time">' +
+                                            '<span>' + date(new Date()) + '</span>' +
+                                        '</div>' +                                                        
+                                    '</div>';
+                cases.appendChild(wordsBox);
+
+                //收起并清空输入框 
+                btn.style.display = 'none';
+                input.style.display = 'none';
+                input.value = "";
+                a.innerHTML = '<img src="../img/评论.png" alt=""> 评论</a>';
+                a.className = 'com';
+
+            }
+            else {
+                alert('评论内容不能为空！');
+            }
+        }
+        
+    }, false);
+
+}
+
+                
+        
+

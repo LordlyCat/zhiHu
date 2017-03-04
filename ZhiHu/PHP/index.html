@@ -1,0 +1,36 @@
+    <?php
+    if($pageNo==1){
+        $sql = "select top ".$pageSize." * from Question order by QuestionID desc";
+    }
+    else{
+        $sql = "select top ".$pageSize." * from Question where QuestionID not in(select top ".($pageNo-1)*$pageSize." QuestionID from Question order by QuestionID desc) order by QuestionID desc";
+    }
+    $rs = $conn->query($sql);
+    while($row=$rs->fetch()){
+    foreach ($conn->query($sql) as $row){
+    <tr>
+        <td><?php echo $row["QuestionTitle"] ?></td>
+        <td><a href="<?php echo $row["HtmlUrl"] ?>" target="_blank"></a></td>
+        <td><?php echo date("Y-m-d",strtotime($row["QuestionUpdateTime"])) ?></td>
+    </tr>
+    }
+    ?>
+</table>
+<p>
+    <?php
+    function iif($arg_1,$arg_2,$arg_3){
+        if($arg_1){
+            return $arg_2;
+        }
+        else{
+            return $arg_3;
+        }
+    }
+    ?>
+    <a href="主页.html?page=1">首页</a>
+    <a href="主页.html?page=<?php echo iif($pageNo<=1,1,$pageNo-1); ?>">上一页</a>
+    <a href="主页.html?page=<?php echo iif($pageNo>=$pageCount,$pageCount,$pageNo+1); ?>">下一页</a>
+    <a href="主页.html?page=<?php echo $pageCount ?>">尾页</a>
+</p>
+</body>
+</html>

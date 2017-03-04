@@ -63,6 +63,7 @@ function ajax( opts ) {
         if ( oXhr.readyState === 4 ) {
             if (oXhr.status === 200) {
                 defaults.success.call(oXhr, oXhr.responseText);
+                //alert('YES');
             } else {
                 defaults.error();
             };
